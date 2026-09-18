@@ -1,0 +1,29 @@
+server:
+  port: 0
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:h2:mem:review_test;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  data:
+    redis:
+      host: localhost
+      port: 6461
+
+# H2 中索引名是 schema 级全局唯一（MySQL 按表唯一）。分片表 score_yyyyMM 复用
+# idx_work_id 等名字会与主表冲突，测试库给主表索引起专属前缀名规避。
+logging:
+  level:
+    com.example.reviewsystem: WARN
+    org.hibernate.SQL: WARN
